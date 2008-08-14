@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
-import os, stat, errno
+import os, stat, errno, sys
 import fuse
 from fuse import Fuse
+from subprocess import *
 
 fuse.fuse_python_api = (0, 2)
 
-a1 = ''
-a2 = ''
-hello_path = '/hellohahaha'
+hello_path = '/hello'
 hello_str = 'Hello World!\n'
 
 class MyStat(fuse.Stat):
     def __init__(self):
+        
         self.st_mode = 0
         self.st_ino = 0
         self.st_dev = 0
@@ -26,7 +26,22 @@ class MyStat(fuse.Stat):
 
 class HelloFS(Fuse):
 
-    def getattr(self, path):  #bij ls in root dir en bij ls in /r
+    def __init__(self,*ar,**kwar):
+        fuse.Fuse.__init__(self,*ar,**kwar)
+        ls = os.popen("ls -l")
+        output = ls.read()
+        self.lines = list(output.split("\n") )
+        self.src = sys.argv[1]
+        self.wrt()
+        
+        
+    def wrt(self):
+        f = open("/tmp/log.txt", 'a')
+        for l in self.lines:
+            f.write(l+"\n")
+        f.write("bron: " + self.src +"\n")
+    
+    def getattr(self, path):
         st = MyStat()
         if path == '/':
             st.st_mode = stat.S_IFDIR | 0755
@@ -37,11 +52,10 @@ class HelloFS(Fuse):
             st.st_size = len(hello_str)
         else:
             return -errno.ENOENT
-        print "ok"
         return st
 
     def readdir(self, path, offset):
-        for r in  '.', '..', hello_path[1:]:
+        for r in  '.', '..', hello_path[1:] :
             yield fuse.Direntry(r)
 
     def open(self, path, flags):
