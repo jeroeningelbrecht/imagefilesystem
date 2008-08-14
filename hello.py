@@ -6,7 +6,9 @@ from fuse import Fuse
 
 fuse.fuse_python_api = (0, 2)
 
-hello_path = '/hello'
+a1 = ''
+a2 = ''
+hello_path = '/hellohahaha'
 hello_str = 'Hello World!\n'
 
 class MyStat(fuse.Stat):
@@ -35,6 +37,7 @@ class HelloFS(Fuse):
             st.st_size = len(hello_str)
         else:
             return -errno.ENOENT
+        print "ok"
         return st
 
     def readdir(self, path, offset):
