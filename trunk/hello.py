@@ -28,19 +28,21 @@ class HelloFS(Fuse):
 
     def __init__(self,*ar,**kwar):
         fuse.Fuse.__init__(self,*ar,**kwar)
-        ls = os.popen("ls -l")
-        output = ls.read()
-        self.lines = list(output.split("\n") )
-        self.src = sys.argv[1]
-        self.wrt()
-        
+        self.src = sys.argv[1] #!!!!!!!!
+        self.getFiles(self.src)
         
     def wrt(self):
         f = open("/tmp/log.txt", 'a')
-        for l in self.lines:
+        for l in self.lijstje:
             f.write(l+"\n")
-        f.write("bron: " + self.src +"\n")
     
+    def getFiles(self, path):
+        self.files = []
+        ls = os.popen("ls " + path)
+        output = ls.read()
+        self.lijstje = list(output.split("  "))
+        self.wrt()
+        
     def getattr(self, path):
         st = MyStat()
         if path == '/':
@@ -55,7 +57,11 @@ class HelloFS(Fuse):
         return st
 
     def readdir(self, path, offset):
-        for r in  '.', '..', hello_path[1:] :
+        direct = ['.', '..']
+        for entry in self.lijstje:
+            direct.append(entry + "  ")
+        
+        for r in direct:
             yield fuse.Direntry(r)
 
     def open(self, path, flags):
