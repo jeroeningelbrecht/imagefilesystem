@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 
-import os, stat, errno, sys
+import os, stat, errno, sys, shutil
 import fuse
 from fuse import Fuse
-from subprocess import *
 
 fuse.fuse_python_api = (0, 2)
 
-hello_path = '/hello'
-hello_str = 'Hello World!\n'
+hello_str = "Hey"
 
 class MyStat(fuse.Stat):
     def __init__(self):
@@ -25,54 +23,50 @@ class MyStat(fuse.Stat):
         self.st_ctime = 0
 
 class HelloFS(Fuse):
-
-    def __init__(self,*ar,**kwar):
-        fuse.Fuse.__init__(self,*ar,**kwar)
-        self.src = sys.argv[1] #!!!!!!!!
-        self.getFiles(self.src)
-        
-    def wrt(self):
-        f = open("/tmp/log.txt", 'a')
-        for l in self.lijstje:
-            f.write(l+"\n")
     
-    def getFiles(self, path):
+    def __init__(self,*ar,**kwar):
+    
+        fuse.Fuse.__init__(self,*ar,**kwar)
+        
+        self.src = sys.argv[1] #de bronmap
+        self.dest = sys.argv[2] #dest map
         self.files = []
-        ls = os.popen("ls " + path)
-        output = ls.read()
-        self.lijstje = list(output.split("  "))
-        self.wrt()
+        #shutil.copytree(self.src, self.dest)
+        #self.getFiles(self.src)
+        
+    def wrt(self, str):
+        f = open("/tmp/log.txt", 'a')
+        f.write(str+"\n")
         
     def getattr(self, path):
         st = MyStat()
         if path == '/':
             st.st_mode = stat.S_IFDIR | 0755
             st.st_nlink = 2
-        elif path == hello_path:
+        else:
             st.st_mode = stat.S_IFREG | 0444
             st.st_nlink = 1
-            st.st_size = len(hello_str)
-        else:
-            return -errno.ENOENT
+        
         return st
 
     def readdir(self, path, offset):
-        direct = ['.', '..']
-        for entry in self.lijstje:
-            direct.append(entry + "  ")
+        if path == '/':
+            dirents = ['.', '..']
+            files = os.listdir(self.src)
+            for f in files:
+                dirents.append(f)
+            for r in  dirents:
+                yield fuse.Direntry(r)
+        else:
+            pass
         
-        for r in direct:
-            yield fuse.Direntry(r)
-
+            
     def open(self, path, flags):
-        if path != hello_path:
-            return -errno.ENOENT
-        accmode = os.O_RDONLY | os.O_WRONLY | os.O_RDWR
-        if (flags & accmode) != os.O_RDONLY:
-            return -errno.EACCES
-
+        return 0
+        
     def read(self, path, size, offset):
-        if path != hello_path:
+        self.wrt("haha")
+        if path != "/":
             return -errno.ENOENT
         slen = len(hello_str)
         if offset < slen:
@@ -82,7 +76,7 @@ class HelloFS(Fuse):
         else:
             buf = ''
         return buf
-
+    
 def main():
     usage="""
 Userspace hello example
