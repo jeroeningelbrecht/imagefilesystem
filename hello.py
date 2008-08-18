@@ -6,7 +6,9 @@ from fuse import Fuse
 
 fuse.fuse_python_api = (0, 2)
 
-hello_str = "Hey"
+#####VARS####
+width = "100"
+height = "100"
 
 class MyStat(fuse.Stat):
     def __init__(self):
@@ -30,9 +32,6 @@ class HelloFS(Fuse):
         
         self.src = sys.argv[1] #de bronmap
         self.dest = sys.argv[2] #dest map
-        self.files = []
-        #shutil.copytree(self.src, self.dest)
-        #self.getFiles(self.src)
         
     def wrt(self, str):
         f = open("/tmp/log.txt", 'a')
@@ -46,7 +45,7 @@ class HelloFS(Fuse):
         else:
             st.st_mode = stat.S_IFREG | 0444
             st.st_nlink = 1
-        
+            st.st_size = 1024
         return st
 
     def readdir(self, path, offset):
@@ -62,20 +61,19 @@ class HelloFS(Fuse):
         
             
     def open(self, path, flags):
-        return 0
-        
-    def read(self, path, size, offset):
-        self.wrt("haha")
-        if path != "/":
+        pth = self.src + path #/home/jeroen/Desktop/test + /python.png
+        comm = "convert " +pth+ " -resize " +width+ "x" +height+ " /tmp" +path
+        self.wrt(comm)
+        if not os.path.isfile(pth):
             return -errno.ENOENT
-        slen = len(hello_str)
-        if offset < slen:
-            if offset + size > slen:
-                size = slen - offset
-            buf = hello_str[offset:offset+size]
-        else:
-            buf = ''
-        return buf
+        accmode = os.O_RDONLY | os.O_WRONLY | os.O_RDWR
+        if (flags & accmode) != os.O_RDONLY:
+            return -errno.EACCES
+        
+        os.popen(comm + "& display /tmp" +path, "r")
+
+    def read(self, path, size, offset):
+        return 0
     
 def main():
     usage="""
