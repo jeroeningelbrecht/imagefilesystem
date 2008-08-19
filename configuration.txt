@@ -1,0 +1,11 @@
+GENERAL
+-------
+tmpdir
+	/home/.imagefs
+
+THUMB
+------
+width
+	100
+height
+	100

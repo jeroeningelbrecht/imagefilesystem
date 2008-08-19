@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 
-import os, stat, errno, sys, shutil
+import os, stat, errno, shutil, sys, tempfile
 import fuse
 from fuse import Fuse
+import threading
 
 fuse.fuse_python_api = (0, 2)
-
-#####VARS####
-width = "100"
-height = "100"
 
 class MyStat(fuse.Stat):
     def __init__(self):
@@ -26,54 +23,78 @@ class MyStat(fuse.Stat):
 
 class HelloFS(Fuse):
     
-    def __init__(self,*ar,**kwar):
+    def __init__(self,*args,**kwargs):
     
-        fuse.Fuse.__init__(self,*ar,**kwar)
-        
+        fuse.Fuse.__init__(self,*args,**kwargs)
         self.src = sys.argv[1] #de bronmap
         self.dest = sys.argv[2] #dest map
+        
+        #other variables
+        pathConfFile = os.path.abspath(sys.argv[0])
+        confFile = os.path.dirname(pathConfFile)+"/configuration.txt"
+        f = open(confFile, 'r')
+        l = f.readlines()
+        
+        self.pathTmpDir = l[l.index("tmpdir\n")+1].strip()
+        self.width = l[l.index("width\n")+1].strip()
+        self.height = l[l.index("height\n")+1].strip()
+        
+        #making the temporary dirs
+        if os.path.isdir(self.pathTmpDir):
+            shutil.rmtree(self.pathTmpDir)
+        os.mkdir(self.pathTmpDir)
+        
+        for root, dirs, files in os.walk(self.src, topdown=True):
+            str = root.split(self.src)[1]
+            os.makedirs(self.pathTmpDir + str + "/THUMB")
+        
         
     def wrt(self, str):
         f = open("/tmp/log.txt", 'a')
         f.write(str+"\n")
+        f.close()
         
     def getattr(self, path):
-        st = MyStat()
-        if path == '/':
-            st.st_mode = stat.S_IFDIR | 0755
-            st.st_nlink = 2
-        else:
-            st.st_mode = stat.S_IFREG | 0444
-            st.st_nlink = 1
-            st.st_size = 1024
-        return st
+        #st = MyStat()
+        #if path == '/':
+        #    st.st_mode = stat.S_IFDIR | 0755
+        #    st.st_nlink = 2
+        #else:            
+        #    st.st_mode = stat.S_IFREG | 0777
+        #    st.st_nlink = 1
+        #    st.st_size = 1024
+        #return st
+        
+        return os.lstat(self.pathTmpDir + path)
 
     def readdir(self, path, offset):
-        if path == '/':
-            dirents = ['.', '..']
-            files = os.listdir(self.src)
-            for f in files:
-                dirents.append(f)
-            for r in  dirents:
-                yield fuse.Direntry(r)
-        else:
-            pass
+        dirents = ['.', '..']
+        files = os.listdir(self.pathTmpDir + path)
+        for f in files:
+            dirents.append(f)
+        for r in  dirents:
+            yield fuse.Direntry(r)
         
             
     def open(self, path, flags):
+        
         pth = self.src + path #/home/jeroen/Desktop/test + /python.png
-        comm = "convert " +pth+ " -resize " +width+ "x" +height+ " /tmp" +path
-        self.wrt(comm)
+        comm = "convert " +pth+ " -resize " +self.width+ "x" +self.height+ " /tmp" +path
+        
         if not os.path.isfile(pth):
             return -errno.ENOENT
         accmode = os.O_RDONLY | os.O_WRONLY | os.O_RDWR
         if (flags & accmode) != os.O_RDONLY:
             return -errno.EACCES
         
-        os.popen(comm + "& display /tmp" +path, "r")
-
+        
+        #os.popen(comm, "r")
+        
     def read(self, path, size, offset):
-        return 0
+        imgFile = open("/tmp" + path, "rb")
+        imgFile.seek(offset)        
+        imgBytes = imgFile.read(size)
+        return imgBytes
     
 def main():
     usage="""
