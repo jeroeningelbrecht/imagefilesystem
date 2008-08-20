@@ -117,7 +117,7 @@ class HelloFS(Fuse):
         imgFile = open(self.pathTmpDir + path, "rb")
         imgFile.seek(offset)
         imgBytes = imgFile.read(size)
-        self.wrt(self.pathTmpDir + path) 
+        imgFile.close() 
         return imgBytes
 
     ###Logging###
