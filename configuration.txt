@@ -3,9 +3,26 @@ GENERAL
 tmpdir
 	/home/.imagefs
 
+categories:
+	THUMB
+	SMALL
+	ROTATED
+
 THUMB
 ------
-width
-	100
-height
-	100
+THUMB_width
+	10
+THUMB_height
+	10
+
+SMALL
+-----
+SMALL_width
+	200
+SMALL_height
+	200
+
+ROTATED
+-------
+ROTATED_angle
+	90
