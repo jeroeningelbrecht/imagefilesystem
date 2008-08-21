@@ -13,7 +13,6 @@ class ImageFileFS(Fuse):
         self.src = os.path.abspath(sys.argv[1]) #de bronmap
         self.dest = os.path.abspath(sys.argv[2]) #dest map
         
-        self.wrt(self.src)
         #other variables
         pathConfFile = os.path.abspath(sys.argv[0])
         confFile = os.path.dirname(pathConfFile)+"/configuration.txt"
@@ -87,7 +86,7 @@ class ImageFileFS(Fuse):
             elif len(path.split("/ROTATED")) > 1 :
                 pathSplit = path.split("/ROTATED")
                 pth = self.src + pathSplit[0] + pathSplit[len(pathSplit)-1]
-                command = "convert " +pth+ " -rotate " +self.ROTATED_angle + " " +self.pathTmpDir +path
+                command = "convert \"" +pth+ "\" -rotate " +self.ROTATED_angle + " \"" +self.pathTmpDir +path +"\""
             else:
                 pass
             
@@ -131,7 +130,7 @@ class ImageFileFS(Fuse):
     
     def getResizeCommand(self, pathSplit, path):
         pth = self.src + pathSplit[0] + pathSplit[len(pathSplit)-1]
-        command = "convert " +pth+ " -resize " +self.THUMB_width+ "x" +self.THUMB_height+ " " +self.pathTmpDir +path
+        command = "convert \"" +pth+ "\" -resize " +self.THUMB_width+ "x" +self.THUMB_height+ " \"" +self.pathTmpDir +path+ "\""
         return command
     
 def main():
