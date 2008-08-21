@@ -1,8 +1,8 @@
-#summary One-sentence summary of this page.
+#summary Info about the project
 
 = Introduction =
 
-Add your content here.
+blablabla
 
 
 = Details =
@@ -13,7 +13,8 @@ You need:
 
   * PyXML: http://sourceforge.net/project/showfiles.php?group_id=6473
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= TODO =
+  * XML ocnf files: busy
+  * OOP way of programming: busy
+  * exotic: the possibility of giving parameters in a command (e.g. cp images/t.jpg&width=50): /
+  * known issues: busy
