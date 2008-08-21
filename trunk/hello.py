@@ -7,21 +7,7 @@ import threading
 
 fuse.fuse_python_api = (0, 2)
 
-class MyStat(fuse.Stat):
-    def __init__(self):
-        
-        self.st_mode = 0
-        self.st_ino = 0
-        self.st_dev = 0
-        self.st_nlink = 0
-        self.st_uid = 0
-        self.st_gid = 0
-        self.st_size = 0
-        self.st_atime = 0
-        self.st_mtime = 0
-        self.st_ctime = 0
-
-class HelloFS(Fuse):
+class ImageFileFS(Fuse):
     
     def __init__(self,*args,**kwargs):
         fuse.Fuse.__init__(self,*args,**kwargs)
@@ -153,7 +139,7 @@ def main():
 Userspace hello example
 
 """ + Fuse.fusage
-    server = HelloFS(version="%prog " + fuse.__version__,
+    server = ImageFileFS(version="%prog " + fuse.__version__,
                      usage=usage,
                      dash_s_do='setsingle')
 
