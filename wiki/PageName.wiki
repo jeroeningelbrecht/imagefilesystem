@@ -11,7 +11,7 @@ You need:
 
   * ImageMagick: sudo apt-get install imagemagick
 
-  * PyXML http://sourceforge.net/project/showfiles.php?group_id=6473
+  * PyXML: http://sourceforge.net/project/showfiles.php?group_id=6473
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
