@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
-import os, stat, errno, shutil, sys, tempfile
+import os, stat, errno, shutil, sys
 import fuse
 from fuse import Fuse
-import threading
 
 fuse.fuse_python_api = (0, 2)
 
@@ -11,9 +10,10 @@ class ImageFileFS(Fuse):
     
     def __init__(self,*args,**kwargs):
         fuse.Fuse.__init__(self,*args,**kwargs)
-        self.src = sys.argv[1] #de bronmap
-        self.dest = sys.argv[2] #dest map
+        self.src = os.path.abspath(sys.argv[1]) #de bronmap
+        self.dest = os.path.abspath(sys.argv[2]) #dest map
         
+        self.wrt(self.src)
         #other variables
         pathConfFile = os.path.abspath(sys.argv[0])
         confFile = os.path.dirname(pathConfFile)+"/configuration.txt"
