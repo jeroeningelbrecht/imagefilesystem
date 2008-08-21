@@ -14,7 +14,7 @@ You need:
   * PyXML: http://sourceforge.net/project/showfiles.php?group_id=6473
 
 = TODO =
-  * XML ocnf files: busy
+  * XML conf files: busy
   * OOP way of programming: busy
   * exotic: the possibility of giving parameters in a command (e.g. cp images/t.jpg&width=50): /
   * known issues: busy
