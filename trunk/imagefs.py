@@ -19,7 +19,7 @@ class ImageFileFS(Fuse):
         f = open(confFile, 'r')
         l = f.readlines()
         
-        self.pathTmpDir = l[l.index("tmpdir\n")+1].strip()
+        self.pathTmpDir = os.path.expanduser(l[l.index("tmpdir\n")+1].strip())
         self.THUMB_width = l[l.index("THUMB_width\n")+1].strip()
         self.THUMB_height = l[l.index("THUMB_height\n")+1].strip()
         self.SMALL_width = l[l.index("SMALL_width\n")+1].strip()
@@ -27,6 +27,7 @@ class ImageFileFS(Fuse):
         self.ROTATED_angle = l[l.index("ROTATED_angle\n")+1].strip()
         
         #making the temporary dirs
+        self.wrt(self.pathTmpDir)
         if os.path.isdir(self.pathTmpDir):
             shutil.rmtree(self.pathTmpDir)
         os.mkdir(self.pathTmpDir)
