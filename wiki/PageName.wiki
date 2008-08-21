@@ -1,0 +1,19 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+You need:
+  * python (2.5): sudo apt-get install python
+
+  * ImageMagick: sudo apt-get install imagemagick
+
+  * PyXML http://sourceforge.net/project/showfiles.php?group_id=6473
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
