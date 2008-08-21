@@ -18,3 +18,4 @@ You need:
   * OOP way of programming: busy
   * exotic: the possibility of giving parameters in a command (e.g. cp images/t.jpg&width=50): /
   * known issues: busy
+  * the possibility to choose your config file (./imagefs.py src dest --config=configfile): busy
