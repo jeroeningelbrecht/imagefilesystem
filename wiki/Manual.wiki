@@ -1,20 +1,95 @@
 #summary Here you'll find the usage of the project
 = Introduction =
 
-Learn how to use this new filesystem.
+Learn how to use this filesystem.
 
 
 = Details =
 
-  * *How to mount the filesystem:*
+  * *How to mount the filesystem?*
 
        pathOfTheimagefsScript.py ImageSourceFolder ImageDestinationfolder -o config=pathOfTheConfigFile
 
        _example_: ~/Desktop/work/dond/trunk/ImageFS/src/imagefs.py test r -o config=work/dond/trunk/ImageFS/src/conf.xml
 
 
-  * *How to unmount the filesystem:*
+  * *How to unmount the filesystem?*
 
        fusermount -u ImageDestinationfolder
 
        _example_: fusermount -u r
+
+  * *How do the configuration files work?*
+
+       First of all, they're written in XML to have a more structured layout. You have several possibilities as a user.
+
+       An example of a configuration file:
+       {{{
+       <configuration>
+	<tempdir path="~/.imagefs"></tempdir>
+	<directories>
+		<dir name="Thumb">
+			<imagemagickparameters>
+				<resize>
+					<resizeWidth></resizeWidth>
+					<resizeHeight></resizeHeight>
+				</resize>
+				<rotate>
+					<rotationAngle></rotationAngle>
+				</rotate>
+				<borderColor>blue</borderColor>
+				<border>
+					<borderWidth>1</borderWidth>
+					<borderHeight>1</borderHeight>
+				</border>
+				<crop>
+					<cropWidth></cropWidth>
+					<cropHeight></cropHeight>
+					<x></x>
+					<y></y>
+				</crop>
+			</imagemagickparameters>
+			<imageMagickCommand>convert %src -resize 90x90 %dest</imageMagickCommand>
+		</dir>
+		<dir name="Small">
+			<imagemagickparameters>
+				<resize>
+					<resizeWidth>100</resizeWidth>
+					<resizeHeight>100</resizeHeight>
+				</resize>
+				<rotate>
+					<rotationAngle></rotationAngle>
+				</rotate>
+				<borderColor></borderColor>
+				<border>
+					<borderWidth></borderWidth>
+					<borderHeight></borderHeight>
+				</border>
+				<crop>
+					<cropWidth></cropWidth>
+					<cropHeight></cropHeight>
+					<x></x>
+					<y></y>
+				</crop>
+			</imagemagickparameters>
+		</dir>
+		<dir name="Rotated">
+			<imagemagickparameters>
+				<rotate>
+					<rotationAngle>65</rotationAngle>
+				</rotate>
+			</imagemagickparameters>
+		</dir>
+	</directories>
+</configuration>       
+       }}}
+
+       As you can see, the syntax isn't that hard. First of all, you specify the *directory* where your images are going to be cached. This is *NOT* the mountpoint of the filesystem.
+
+       Then, you can specify the name of the wanted subdirectories for your images. You can choose what name you give the directory. In the example there's for example _Thumb_ and _Small_ but this could have been _Petit+_ and _Petit__.
+
+       You cannot only choose the name of the directories but you can of course choose the number of subdirectories you want. In the example there are 3 subdirectories, but nothing stops you from making only 1 subdir or from making 10 different subdirectories.
+
+       The next step is to fill in the parameters. You don't have to fill them all in and you can even remove the tags you don't need like for the directory _Rotated_ where the user only uses the tags he really needs.
+
+       Last but not least is the possibility to give in an ImageMagick shell command that you want to use. You must know that, if you put a command in this tag, the other parameters you gave in for that subdirectory *WON'T* be used. This command has priority.
