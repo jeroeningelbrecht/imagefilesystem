@@ -8,6 +8,7 @@ Learn how to use this filesystem.
 
   * *How to mount the filesystem?*
        pathOfTheimagefsScript.py ImageSourceFolder ImageDestinationfolder -o config=pathOfTheConfigFile
+
        _example_: ~/Desktop/work/dond/trunk/ImageFS/src/imagefs.py test r -o config=work/dond/trunk/ImageFS/src/conf.xml
 
   * *Can I mount multiple systems with the same config file?*
@@ -15,6 +16,7 @@ Learn how to use this filesystem.
 
   * *How to 'manually' unmount the filesystem?*
        fusermount -u ImageDestinationfolder
+
        _example_: fusermount -u r
 
   * *How do the configuration files work?*
