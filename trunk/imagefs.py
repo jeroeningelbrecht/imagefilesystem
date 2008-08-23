@@ -23,10 +23,15 @@ class ImageFS(Fuse):
         self.configFile = self.searchConfigFile(sys.argv)
         self.dirmaker = Dirmaker(self.configFile)        
         #making the temporary dirs
+        self.dirmaker.removePreviousTree(self.src)
         self.dirmaker.makeDirs(self.src)
         self.pathTempDir = self.dirmaker.getPathTempDir()
         
     def getattr(self, path):
+        self.dirmaker.makeDirs(self.src)
+        if os.path.isdir(self.pathTempDir+self.src+ path) and not os.path.isdir(self.src+path):
+            shutil.rmtree(self.pathTempDir+self.src+ path)
+            
         for dirName in self.dirmaker.getDirNames():
             if len(path.split("/"+dirName)) > 1:
                 if os.path.isfile(self.pathTempDir+self.src+ path):
