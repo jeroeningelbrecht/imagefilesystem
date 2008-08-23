@@ -92,4 +92,4 @@ Learn how to use this filesystem.
 
        The next step is to fill in the parameters. You don't have to fill them all in and you can even remove the tags you don't need like for the directory _Rotated_ where the user only uses the tags he really needs.
 
-       Last but not least is the possibility to give in an ImageMagick shell command that you want to use. You must know that, if you put a command in this tag, the other parameters you gave in for that subdirectory *WON'T* be used. This command has priority.
+       Last but not least is the possibility to give in an ImageMagick shell command that you want to use. You must know that, if you put a command in this tag, the other parameters you gave in for that subdirectory *WON'T* be used. Like for the subdir _Thumb_, the values for the borders won't be used. *IMPORTANT* is the use of the keywords %src and %dest. They're used in the script to know where to put the path of the source directory and the path of the mountpoint. Do not forget them when you're giving in your own command.
