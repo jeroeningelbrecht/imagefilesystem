@@ -26,12 +26,13 @@ class Dirmaker(object):
         
         self.pathTempDir = os.path.expanduser(self.dh.pathTempDir)
         self.dirList = self.dh.dirs
-        
-    def makeDirs(self, pathSourceDir):
+    
+    def removePreviousTree(self, pathSourceDir):
         if os.path.isdir(self.pathTempDir+pathSourceDir):
             shutil.rmtree(self.pathTempDir+pathSourceDir)
         os.makedirs(self.pathTempDir+pathSourceDir)
         
+    def makeDirs(self, pathSourceDir):       
         self.dirNames = []
         for dir in self.dirList:
             self.dirNames.append(dir[0])
@@ -39,7 +40,8 @@ class Dirmaker(object):
         for root, dirs, files in os.walk(pathSourceDir, topdown=True):
             str = root.split(pathSourceDir)[1]
             for dir in self.dirNames:
-                os.makedirs(self.pathTempDir+pathSourceDir + str +"/"+ dir)
+                if not os.path.isdir(self.pathTempDir+pathSourceDir + str +"/"+ dir):
+                    os.makedirs(self.pathTempDir+pathSourceDir + str +"/"+ dir)
     
     def getPathTempDir(self):
         return self.pathTempDir
