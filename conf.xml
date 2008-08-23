@@ -3,32 +3,54 @@
 	<directories>
 		<dir name="Thumb">
 			<imagemagickparameters>
-				<width>30</width>
-				<height>30</height>
-				<rotationAngle></rotationAngle>
-				<border></border>
-				<borderColor></borderColor>
-				<crop></crop>
+				<resize>
+					<resizeWidth></resizeWidth>
+					<resizeHeight></resizeHeight>
+				</resize>
+				<rotate>
+					<rotationAngle></rotationAngle>
+				</rotate>
+				<borderColor>blue</borderColor>
+				<border>
+					<borderWidth>1</borderWidth>
+					<borderHeight>1</borderHeight>
+				</border>
+				<crop>
+					<cropWidth></cropWidth>
+					<cropHeight></cropHeight>
+					<x></x>
+					<y></y>
+				</crop>
 			</imagemagickparameters>
-			<imagemagickcommand></imagemagickcommand>
-			
+			<imageMagickCommand>convert %src -resize 90x90 %dest</imageMagickCommand>
 		</dir>
 		<dir name="Small">
 			<imagemagickparameters>
-				<width>100</width>
-				<height>100</height>
-				<rotationAngle></rotationAngle>
-				<border></border>
-				<crop></crop>
+				<resize>
+					<resizeWidth>100</resizeWidth>
+					<resizeHeight>100</resizeHeight>
+				</resize>
+				<rotate>
+					<rotationAngle></rotationAngle>
+				</rotate>
+				<borderColor></borderColor>
+				<border>
+					<borderWidth></borderWidth>
+					<borderHeight></borderHeight>
+				</border>
+				<crop>
+					<cropWidth></cropWidth>
+					<cropHeight></cropHeight>
+					<x></x>
+					<y></y>
+				</crop>
 			</imagemagickparameters>
 		</dir>
 		<dir name="Rotated">
 			<imagemagickparameters>
-				<width>50</width>
-				<height></height>
-				<rotationAngle>65</rotationAngle>
-				<border></border>
-				<crop></crop>
+				<rotate>
+					<rotationAngle>65</rotationAngle>
+				</rotate>
 			</imagemagickparameters>
 		</dir>
 	</directories>
