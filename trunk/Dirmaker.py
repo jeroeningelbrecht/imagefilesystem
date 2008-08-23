@@ -50,7 +50,9 @@ class Dirmaker(object):
     def getParams(self, nameDir):
         for dir in self.dirList:
             if dir[0] == nameDir:
-                params = {'width':dir[1], 'height':dir[2], 'angle':dir[3]}
+                params = {'width':dir[1], 'height':dir[2], 'angle':dir[3], 'borderColor':dir[4], 'borderWidth':dir[5],
+                          'borderHeight':dir[6], 'cropWidth':dir[7], 'cropHeight':dir[8], 'cropX':dir[9], 'cropY':dir[10],
+                          'imageMagickCommand':dir[11]}
                 break
         return params
         
@@ -59,6 +61,14 @@ class Dirmaker(object):
             self.inWidthContent = 0
             self.inHeightContent = 0
             self.inRotationContent = 0
+            self.inBorderColorContent = 0
+            self.inBorderWidthContent = 0
+            self.inBorderHeightContent = 0
+            self.inCropWidthContent = 0
+            self.inCropHeightContent = 0
+            self.inCropXContent = 0
+            self.inCropYContent = 0
+            self.inImageMagickCommandContent = 0
             
             self.dirs = []
             self.dir = []
@@ -67,6 +77,14 @@ class Dirmaker(object):
             self.width = ''
             self.height = ''
             self.rotation = ''
+            self.borderColor = ''
+            self.borderWidth = ''
+            self.borderHeight = ''
+            self.cropWidth = ''
+            self.cropHeight = ''
+            self.cropX = ''
+            self.cropY = ''
+            self.imageMagickCommand = ''
     
         def normalize_whitespace(self,text):
             "Remove redundant whitespace from a string"
@@ -79,17 +97,49 @@ class Dirmaker(object):
             if name == 'dir': 
                 self.dirName = attrs.get('name', '')
                 
-            elif name == 'width':
+            elif name == 'resizeWidth':
                 self.inWidthContent = 1
                 self.width = ''
             
-            elif name == 'height':
+            elif name == 'resizeHeight':
                 self.inHeightContent = 1
                 self.height = ''
             
             elif name == 'rotationAngle':
                 self.inRotationContent = 1
-                self.rotation = ''                
+                self.rotation = ''
+            
+            elif name == 'borderColor':
+                self.inBorderColorContent = 1
+                self.borderColor = '' 
+            
+            elif name == 'borderWidth':
+                self.inBorderWidthContent = 1
+                self.borderWidth = ''
+            
+            elif name == 'borderHeight':
+                self.inBorderHeightContent = 1
+                self.borderHeight = ''
+            
+            elif name == 'cropWidth':
+                self.inCropWidthContent = 1
+                self.cropWidth = ''
+            
+            elif name == 'cropHeight':
+                self.inCropHeightContent = 1
+                self.cropHeight = ''
+            
+            elif name == 'x':
+                self.inCropXContent = 1
+                self.cropX = ''
+            
+            elif name == 'y':
+                self.inCropYContent = 1
+                self.cropY = ''
+                
+            elif name == 'imageMagickCommand':
+                self.inImageMagickCommandContent = 1
+                self.imageMagickCommand = ''
                 
         def characters(self, ch):
             if self.inWidthContent:
@@ -98,22 +148,72 @@ class Dirmaker(object):
                 self.height = self.height + ch
             elif self.inRotationContent:
                 self.rotation = self.rotation + ch
+            elif self.inBorderColorContent:
+                self.borderColor = self.borderColor + ch
+            elif self.inBorderWidthContent:
+                self.borderWidth = self.borderWidth + ch
+            elif self.inBorderHeightContent:
+                self.borderHeight = self.borderHeight + ch
+            elif self.inCropWidthContent:
+                self.cropWidth = self.cropWidth + ch
+            elif self.inCropHeightContent:
+                self.cropHeight = self.cropHeight + ch
+            elif self.inCropXContent:
+                self.cropX = self.cropX + ch
+            elif self.inCropYContent:
+                self.cropY = self.cropY + ch
+            elif self.inImageMagickCommandContent:
+                self.imageMagickCommand = self.imageMagickCommand + ch
         
         def endElement(self, name):
             if name == 'dir':
-                self.dir.extend([self.dirName, self.width, self.height, self.rotation])
+                self.dir.extend([self.dirName, self.width, self.height, self.rotation, self.borderColor, self.borderWidth, self.borderHeight,
+                                 self.cropWidth, self.cropHeight, self.cropX, self.cropY, self.imageMagickCommand])
                 self.dirs.append(self.dir)
                 self.dir=[]
                 self.width = ''
                 self.height = ''
                 self.rotation = ''
-            elif name == 'width':
+                self.borderColor = ''
+                self.borderWidth = ''
+                self.borderHeight = ''
+                self.cropWidth = ''
+                self.cropHeight = ''
+                self.cropX = ''
+                self.cropY = ''
+                self.imageMagickCommand = ''
+                
+            elif name == 'resizeWidth':
                 self.inWidthContent = 0 
                 self.width = self.normalize_whitespace(self.width)
-            elif name == 'height':
+            elif name == 'resizeHeight':
                 self.inHeightContent = 0 
                 self.height = self.normalize_whitespace(self.height)
             elif name == 'rotationAngle':
                 self.inRotationContent = 0 
                 self.rotation = self.normalize_whitespace(self.rotation)
+            elif name == 'borderColor':
+                self.inBorderColorContent = 0 
+                self.borderColor = self.normalize_whitespace(self.borderColor)
+            elif name == 'borderWidth':
+                self.inBorderWidthContent = 0 
+                self.borderWidth = self.normalize_whitespace(self.borderWidth)
+            elif name == 'borderHeight':
+                self.inBorderHeightContent = 0 
+                self.borderHeight = self.normalize_whitespace(self.borderHeight)
+            elif name == 'cropWidth':
+                self.inCropWidthContent = 0 
+                self.cropWidth = self.normalize_whitespace(self.cropWidth)
+            elif name == 'cropHeight':
+                self.inCropHeightContent = 0 
+                self.cropHeight = self.normalize_whitespace(self.cropHeight)
+            elif name == 'x':
+                self.inCropXContent = 0 
+                self.cropX = self.normalize_whitespace(self.cropX)
+            elif name == 'y':
+                self.inCropYContent = 0 
+                self.cropY = self.normalize_whitespace(self.cropY)
+            elif name == 'imageMagickCommand':
+                self.inImageMagickCommandContent = 0 
+                self.imageMagickCommand = self.normalize_whitespace(self.imageMagickCommand)
                 
