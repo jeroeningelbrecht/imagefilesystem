@@ -1,11 +1,12 @@
 #summary Info about the project
 
-= Introduction =
+=Introduction=
 
-blablabla
+Here you find the *Dependencies* and the *TODO* list.
 
+=Details=
 
-= Details =
+==Dependencies==
 You need:
   * python (2.5): sudo apt-get install python
 
@@ -13,7 +14,7 @@ You need:
 
   * PyXML: http://sourceforge.net/project/showfiles.php?group_id=6473
 
-= TODO =
+==TODO==
   * ~~XML conf files: done~~
   * ~~OOP way of programming: done~~
   * exotic: the possibility of giving parameters in a command (e.g. cp images/t.jpg&width=50): later
