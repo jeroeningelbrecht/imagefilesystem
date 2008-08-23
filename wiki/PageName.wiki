@@ -15,7 +15,7 @@ You need:
 
 = TODO =
   * ~~XML conf files: done~~
-  * OOP way of programming: busy
+  * ~~OOP way of programming: done~~
   * exotic: the possibility of giving parameters in a command (e.g. cp images/t.jpg&width=50): later
   * known issues: busy
-  * the possibility to choose your config file (./imagefs.py src dest --config=configfile): busy
+  * ~~the possibility to choose your config file (./imagefs.py src dest --config=configfile): done~~
