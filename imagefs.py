@@ -29,8 +29,11 @@ class ImageFS(Fuse):
     def getattr(self, path):
         for dirName in self.dirmaker.getDirNames():
             if len(path.split("/"+dirName)) > 1:
-                pathSplit = path.split("/"+dirName)
-                return self.returnLstat(pathSplit)
+                if os.path.isfile(self.pathTempDir+self.src+ path):
+                    return os.lstat(self.pathTempDir+self.src+path)
+                else:
+                    pathSplit = path.split("/"+dirName)
+                    return self.returnLstat(pathSplit)
         return os.lstat(self.pathTempDir+self.src+path)
 
     def readdir(self, path, offset):
