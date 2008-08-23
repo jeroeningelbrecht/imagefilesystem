@@ -1,0 +1,35 @@
+<configuration>
+	<tempdir path="~/.imagefs"></tempdir>
+	<directories>
+		<dir name="Thumb">
+			<imagemagickparameters>
+				<width>30</width>
+				<height>30</height>
+				<rotationAngle></rotationAngle>
+				<border></border>
+				<borderColor></borderColor>
+				<crop></crop>
+			</imagemagickparameters>
+			<imagemagickcommand></imagemagickcommand>
+			
+		</dir>
+		<dir name="Small">
+			<imagemagickparameters>
+				<width>100</width>
+				<height>100</height>
+				<rotationAngle></rotationAngle>
+				<border></border>
+				<crop></crop>
+			</imagemagickparameters>
+		</dir>
+		<dir name="Rotated">
+			<imagemagickparameters>
+				<width>50</width>
+				<height></height>
+				<rotationAngle>65</rotationAngle>
+				<border></border>
+				<crop></crop>
+			</imagemagickparameters>
+		</dir>
+	</directories>
+</configuration>
