@@ -26,7 +26,7 @@ class MyImageMagickCommandMaker(CommandMaker):
         self.cropY = dict['cropY']
         self.imageMagickCommand = dict['imageMagickCommand']
         
-        if self.imageMagickCommand != '':
+        if self.imageMagickCommand.strip() != '':
             toSplit = self.imageMagickCommand
             self.command = toSplit.split("%src")[0]+self.srcPath+toSplit.split("%src")[1].split("%dest")[0]+self.destPath
         else:
