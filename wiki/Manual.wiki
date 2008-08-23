@@ -11,7 +11,7 @@ Learn how to use this filesystem.
 
        _example_: ~/Desktop/work/dond/trunk/ImageFS/src/imagefs.py test r -o config=work/dond/trunk/ImageFS/src/conf.xml
 
-  * *Can I mount multiple systems with the same config file?*
+  * *Can I mount multiple systems (with the same config file)?*
        Yes you can. Just don't forget to unmount them when you're done with them. They're unmounted automatically when shutting down/rebooting the system.
 
   * *How to 'manually' unmount the filesystem?*
