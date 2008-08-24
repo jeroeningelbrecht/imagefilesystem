@@ -27,8 +27,8 @@
 		<dir name="Small">
 			<imagemagickparameters>
 				<resize>
-					<resizeWidth>100</resizeWidth>
-					<resizeHeight>100</resizeHeight>
+					<resizeWidth>200</resizeWidth>
+					<resizeHeight>200</resizeHeight>
 				</resize>
 				<rotate>
 					<rotationAngle></rotationAngle>
