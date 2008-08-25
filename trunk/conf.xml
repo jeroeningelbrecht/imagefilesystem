@@ -1,5 +1,5 @@
 <configuration>
-	<tempdir path="~/.imagefs"></tempdir>
+	<tempdir path="/tmp/.imagefs"></tempdir>
 	<directories>
 		<dir name="Thumb">
 			<imagemagickparameters>
