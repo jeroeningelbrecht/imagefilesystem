@@ -1,4 +1,4 @@
-#summary Here you'll find the usage of the project
+#summary How to use this filesystem
 = Introduction =
 
 Learn how to use this filesystem.
