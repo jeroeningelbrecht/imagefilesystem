@@ -47,10 +47,14 @@ class ImageFS(Fuse):
     def readdir(self, path, offset):
         self.bool = 0
         dirents = ['.', '..']        
-        for dirName in self.dirmaker.getDirNames():
+        for dirName in self.dirmaker.getDirNames(): 
             if len(path.split("/"+dirName)) > 1:
                 pathSplit = path.split("/"+dirName)
-                files = os.listdir(self.src + pathSplit[0])
+                tempFiles = os.listdir(self.src + pathSplit[0])
+                files = []
+                for f in tempFiles:
+                    if os.path.isfile(self.src + pathSplit[0]+"/"+f):
+                        files.append(f)
                 self.bool = 1
                 break
 
@@ -59,7 +63,7 @@ class ImageFS(Fuse):
         self.bool = 0    
         
         for f in files:
-            dirents.append(f)
+                dirents.append(f)
 
         for r in  dirents:
             yield fuse.Direntry(str(r))
