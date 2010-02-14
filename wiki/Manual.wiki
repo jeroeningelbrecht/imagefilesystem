@@ -9,9 +9,10 @@ Learn how to use this filesystem.
   * *Prerequisites*
        You need to install the python bindings to fuse. You can do this with sudo apt-get install python-fuse. If not, you're likely to get an error like this:
 
-       Traceback (most recent call last):                                                               
-  File "./imagefs_0.0.2/imagefs.py", line 4, in <module>                                         
-    import fuse
+      {{{
+    Traceback (most recent call last):                                                               
+    File "./imagefs_0.0.2/imagefs.py", line 4, in <module> import fuse
+       }}}
 
   * *How to mount the filesystem?*
        pathOfTheimagefsScript.py ImageSourceFolder ImageDestinationfolder -o config=pathOfTheConfigFile
