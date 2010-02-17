@@ -19,6 +19,17 @@ Learn how to use this filesystem.
 
   _example_: ~/Desktop/work/dond/trunk/ImageFS/src/imagefs.py test r -o config=work/dond/trunk/ImageFS/src/conf.xml
 
+This approach worked solely because of the source of fuse.py. There are two possibilities to set the mountpoint:
+
+* or there are no options (no -o argument) and fuse.py takes sys.argv[1] as the mountpoint;
+* or if there is an -o argument, it sets the argument before the -o as the mountpoint. In this case, it actually was the mountpoint. Any way, the current setup is wrong and not very dynamic. I'm working on a way so it can be used like this:
+
+_example_: python imagefs.py -s source -d destination/mountpoint -c conf.xml
+
+which is the same as: python imagefs.py --source sourcefolder --destination destinationFolder/mountpoint --config conf.xml
+
+This is a more natural way to use the commandline.
+
   * *Can I mount multiple systems (with the same config file)?*
        Yes you can. Just don't forget to unmount them when you're done with them. They're unmounted automatically when shutting down/rebooting the system.
 
