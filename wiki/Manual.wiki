@@ -7,17 +7,14 @@ Learn how to use this filesystem.
 = Details =
 
   * *Prerequisites*
-       You need to install the python bindings to fuse. You can do this with sudo apt-get install python-fuse. If not, you're likely to get an error like this:
-
-      {{{
-    Traceback (most recent call last):                                                               
-    File "./imagefs_0.0.2/imagefs.py", line 4, in <module> import fuse
-       }}}
+        * You need *python version 2.6* or newer;
+        * You need to install the python bindings to fuse. You can do this with *sudo apt-get install python-fuse*. If not, you're likely to get an error like this: _Traceback (most recent call last): File "./imagefs_0.0.2/imagefs.py", line 4, in `<`module`>` import fuse_
+        * You need *imagemagick* which you can easily install with _sudo apt-get install imagemagick_
 
   * *How to mount the filesystem?*
-       pathOfTheimagefsScript.py ImageSourceFolder ImageDestinationfolder -o config=pathOfTheConfigFile
+     python  pathOfTheimagefsScript.py -s ImageSourceFolder -d ImageDestinationfolder -c pathOfTheConfigFile
 
-  _example_: ~/Desktop/work/dond/trunk/ImageFS/src/imagefs.py test r -o config=work/dond/trunk/ImageFS/src/conf.xml
+  _example_: python ~/Desktop/work/dond/trunk/ImageFS/src/imagefs.py test r -o config=work/dond/trunk/ImageFS/src/conf.xml
 
 This approach worked solely because of the source of fuse.py. There are two possibilities to set the mountpoint:
 
